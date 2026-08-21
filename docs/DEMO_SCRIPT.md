@@ -1,5 +1,8 @@
 # Two-Minute Demo Script
 
+Recording owner: Snehal. Record this only after the deployed app passes the
+final checklist.
+
 ## 0:00-0:15 - Purpose
 
 "ScreenScope is a Python and Streamlit application that uses the live TMDB API

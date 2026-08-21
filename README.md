@@ -1,117 +1,67 @@
 # ScreenScope
 
-ScreenScope is a collaborative Python and Streamlit app for searching movies
-and TV shows, viewing their details, and exploring popularity and rating
-patterns with live data from the
-[TMDB API](https://developer.themoviedb.org/docs/getting-started).
+ScreenScope is a small Streamlit app for finding movies and TV shows with live
+data from [TMDB](https://developer.themoviedb.org/docs/getting-started).
 
-The graded MVP has only two user-facing pages:
+The app has two simple pages:
 
-1. **Search** - search movies and TV shows, choose a result, and view details.
-2. **Explorer** - filter movies or TV shows by genre and release year, then
-   analyze the returned ratings and popularity with pandas and charts.
+1. **Search:** Search by title, select a result, and see its details.
+2. **Explorer:** Choose Movie or TV, a genre, and a year; then see a table,
+   summary numbers, and two charts.
 
-## Course Requirements
+That is the entire required product. We are not building accounts, watchlists,
+recommendations, machine learning, a database, or a second API.
 
-| Requirement | ScreenScope implementation |
-| --- | --- |
-| Python web app | Python modules and two Streamlit pages |
-| Data analysis | pandas analysis and Matplotlib charts over filtered TMDB results |
-| API | TMDB search, details, genre, and discover endpoints |
-| Hosted on Streamlit | Deploy `app.py` with Streamlit Community Cloud |
-| Hosted on GitHub | Shared repository with commits and pull requests |
-| Team access | All six members and the instructor added as collaborators |
+## What It Should Look Like
 
-## Deliberately Small MVP
+These are the current starting screens. Keep the same simple flow while filling
+in the live results and charts.
 
-### Tab 1: Search
+| Home | Search | Explorer |
+| --- | --- | --- |
+| <img src="docs/reference/screenscope-home.png" alt="ScreenScope home" width="320"> | <img src="docs/reference/screenscope-search.png" alt="ScreenScope Search" width="320"> | <img src="docs/reference/screenscope-explorer.png" alt="ScreenScope Explorer" width="320"> |
 
-- One search box using TMDB `/search/multi`
-- Keep movie and TV results; ignore people
-- Result cards with poster, title, media type, year, rating, and popularity
-- A selected result displays its overview, genres, release date, rating, vote
-  count, popularity, runtime, and status on the same page
+## Your Assignment
 
-### Tab 2: Explorer
+Each person owns one Python file. Open your file and complete only the numbered
+`TODO` blocks bearing your name. The surrounding imports, function signatures,
+and page flow are already provided.
 
-- Choose `Movie` or `TV Show`
-- Filter by one genre and one release/first-air year
-- Use TMDB `/discover/movie` or `/discover/tv`, sorted by popularity
-- Build one pandas DataFrame from the current result page
-- Show summary metrics, a results table, and two charts:
-  - top titles by popularity
-  - rating versus popularity, with vote count available for context
+| Person | Branch | Your Python file | Complete these functions |
+| --- | --- | --- | --- |
+| **Xianyu** | `feature/tmdb-api` | `screenscope/api.py` | `search_media()`, `get_media_details()`, `get_genres()`, `discover_media()` |
+| **Debshree** | `feature/search-page` | `pages/1_Search.py` | `render_result_card()` |
+| **Yan** | `feature/detail-panel` | `screenscope/detail_view.py` | `render_detail_panel()` |
+| **Kuba** | `feature/explorer-page` | `pages/2_Explorer.py` | `load_genres()`, `load_results()`, `render_analysis()` |
+| **Snehal** | `feature/charts-deploy` | `screenscope/charts.py` | `popularity_figure()`, `rating_popularity_figure()` |
+| **Aarya** | `feature/data-analysis` | `screenscope/analysis.py` | `summarize_results()`, `chart_data()` |
 
-The Explorer reports only on the current filtered TMDB result page. Labels
-must say **"most popular in these results"**, not claim universal trending.
+Each person makes one focused pull request containing their assigned Python
+file. Do not rename the prepared functions because other files already call
+them.
 
-The MVP does **not** need TMDB account login, favorites, watchlists,
-recommendations, machine learning, a database, episode analysis, or a second
-API. The provided account-details documentation belongs to the same TMDB API,
-but that endpoint is not required for this read-only app.
+### When Your Part Is Done
 
-## Team Ownership
+- **Xianyu:** The four API functions return normalized movie/TV dictionaries.
+- **Debshree:** Search results show a poster, title, metadata, and Select button.
+- **Yan:** A selected movie or show displays a readable detail panel.
+- **Kuba:** Explorer filters load results and display metrics, a table, and charts.
+- **Snehal:** Both Matplotlib functions return labeled figures. After all pull
+  requests merge, deploy the app and record the short final demo.
+- **Aarya:** pandas returns the three summary values and two clean chart datasets.
 
-Each member should create a feature branch, make at least one meaningful
-commit, and open one pull request. Confirm Debshree's GitHub username before
-inviting collaborators.
+## Build Order
 
-| Owner | GitHub | Workstream | Primary files | Definition of done |
-| --- | --- | --- | --- | --- |
-| Aarya Deshpande | `AaryaDeshpande` | App shell, visual system, integration | `app.py`, `screenscope/styles.py`, shared docs | Two-page navigation and styling are consistent; merged app runs end to end |
-| Xianyu Wang | `XYWang-sunset` | TMDB API, authentication, normalized data | `screenscope/api.py`, `screenscope/contracts.py`, `tests/test_api.py` | Search, details, genres, and discover helpers return the shared contract and handle failures |
-| Debshree Chowdhury | **username needed** | Search form and result cards | `pages/1_Search.py`, `screenscope/search.py` | Query returns movie/TV cards and stores the selected media ID and type |
-| Yan Liu | `Yanliu-dev` | Selected movie/TV detail panel | `screenscope/details.py`, `screenscope/detail_view.py` | Selected result displays safe, useful detail fields and missing-data fallbacks |
-| Kuba | `kubar95` | pandas analysis and charts | `screenscope/analysis.py`, `tests/test_analysis.py` | Explorer results produce metrics, a table, and two clearly labeled charts |
-| Snehal Jindal | `snehal-jindal` | Explorer filters, QA, deployment | `pages/2_Explorer.py`, `screenscope/explore.py`, `docs/DEPLOYMENT.md` | Genre/year filters work, the public app is deployed, and the QA checklist passes |
+1. **Xianyu** completes the API functions.
+2. **Debshree and Yan** complete Search and Details in parallel.
+3. **Aarya and Snehal** complete analysis and charts in parallel.
+4. **Kuba** connects the API, analysis, and charts on Explorer.
+5. **Snehal** deploys and records the demo after all pull requests merge.
 
-Assignments reduce merge conflicts; they are not walls. Teammates should
-review one another's pull requests and coordinate before changing a shared
-function signature.
+Everyone can start immediately because each function already has its inputs,
+outputs, and numbered steps. Sample data can be used before the API is ready.
 
-## Shared Media Contract
-
-Feature modules exchange normalized dictionaries or DataFrames using the
-fields in `screenscope/contracts.py`:
-
-```text
-id, media_type, title, original_title, release_date, release_year,
-genre_ids, genre_names, overview, poster_url, backdrop_url, rating,
-vote_count, popularity, original_language
-```
-
-The detail response may also include:
-
-```text
-runtime, status, tagline, homepage
-```
-
-## Repository Structure
-
-```text
-.
-|-- app.py                         # Shared Streamlit entry point
-|-- pages/
-|   |-- 1_Search.py                # Search, results, and selected details
-|   `-- 2_Explorer.py              # Filters and data-analysis view
-|-- screenscope/
-|   |-- api.py                     # TMDB HTTP client and endpoints
-|   |-- config.py                  # Local/Streamlit token loading
-|   |-- contracts.py               # Shared normalized field names
-|   |-- search.py                  # Search-card transformations
-|   |-- details.py                 # Detail transformations
-|   |-- detail_view.py             # Reusable Streamlit detail renderer
-|   |-- analysis.py                # pandas analysis and chart data
-|   |-- explore.py                 # Explorer query helpers
-|   |-- state.py                   # Selected media state
-|   `-- styles.py                  # Shared visual tokens and CSS
-|-- tests/
-|-- docs/
-|-- requirements.txt
-`-- CONTRIBUTING.md
-```
-
-## Local Setup
+## Set Up Once
 
 The course standard is Python 3.10.
 
@@ -122,56 +72,65 @@ python3.10 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
 cp .streamlit/secrets.toml.example .streamlit/secrets.toml
-streamlit run app.py
 ```
 
-Add the TMDB **API Read Access Token** to your local
+Put your own TMDB **API Read Access Token** in
 `.streamlit/secrets.toml`:
 
 ```toml
-TMDB_ACCESS_TOKEN = "paste-your-read-access-token-here"
+TMDB_ACCESS_TOKEN = "paste-your-token-here"
 ```
 
-The real secrets file is ignored by Git. Add the same secret in Streamlit
-Community Cloud when deploying. Never commit a token, API key, or session ID.
+Never commit or paste a real token into GitHub.
 
-## Collaboration Workflow
+Run the app:
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before editing. In short:
+```bash
+streamlit run app.py
+```
 
-1. Pull the latest `main`.
-2. Create your assigned feature branch from `main`.
-3. Work mainly in your assigned files.
-4. Run the app and tests.
-5. Commit with a descriptive message and push your branch.
-6. Open a pull request to `main` and request a teammate review.
-7. Merge only after the app starts and there are no unresolved conflicts.
+## Complete Your Part
 
-## Design Direction
+```bash
+git switch main
+git pull origin main
+git switch -c your-branch-name
 
-The source of truth is [docs/DESIGN.md](docs/DESIGN.md). Use the dark
-ScreenScope concept: compact navigation, prominent search, responsive poster
-cards, restrained blue actions, warm rating accents, and readable charts. All
-runtime titles, posters, and metrics must come from TMDB rather than hard-coded
-prototype examples.
+# Fill in the TODO comments in your assigned files.
 
-## Submission Checklist
+pytest
+git add path/to/your_file.py
+git commit -m "Add your feature"
+git push -u origin your-branch-name
+```
 
-- [ ] All six students are GitHub collaborators.
-- [ ] Instructor `babbages` is invited to the repository.
-- [ ] Every member has at least one meaningful commit and pull request.
-- [ ] Live TMDB search and discover data appear in the app.
-- [ ] pandas-based analysis and two charts are visible.
-- [ ] App is deployed publicly with Streamlit.
-- [ ] TMDB is visibly credited with the required notice.
-- [ ] Empty results, missing posters, missing ratings, and API failures are handled.
-- [ ] No secrets are committed.
-- [ ] `pytest` passes and the final demo is recorded.
+Then open a pull request into `main` and ask one teammate to review it.
 
-## TMDB Attribution
+## Keep It Simple
+
+- Work mainly in your assigned files.
+- Do not rename shared functions or fields without telling the group.
+- Do not add extra pages or features before the required flow works.
+- Handle missing titles, posters, dates, and ratings without crashing.
+- Explorer describes only the current returned results. Say **"most popular in
+  these results"**, not "globally trending."
+
+## Final Checklist
+
+- [ ] Search calls the TMDB API and displays movie/TV results.
+- [ ] Selecting a result displays its details.
+- [ ] Explorer filters by media type, genre, and year.
+- [ ] pandas creates the analysis table and summary.
+- [ ] Matplotlib displays two charts.
+- [ ] The app is deployed with Streamlit.
+- [ ] All six teammates and instructor `babbages` have repository access.
+- [ ] Every teammate has a meaningful commit and pull request.
+- [ ] No API token is committed.
+- [ ] `pytest` passes.
+
+## TMDB Credit
 
 This product uses the TMDB API but is not endorsed or certified by TMDB.
 
-ScreenScope must include an About/Credits area with an approved TMDB logo and a
-link to [The Movie Database](https://www.themoviedb.org/). TMDB branding must
-remain less prominent than the ScreenScope identity.
+The deployed app must also link to [The Movie Database](https://www.themoviedb.org/)
+and display an approved TMDB logo.

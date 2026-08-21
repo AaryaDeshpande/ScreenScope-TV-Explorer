@@ -1,8 +1,4 @@
-"""Shared data contracts for API, UI, and analysis workstreams.
-
-Owner: TMDB API workstream.
-Coordinate before renaming or removing fields from these contracts.
-"""
+"""Finished shared field names. Coordinate before changing this file."""
 
 MEDIA_FIELDS = (
     "id",

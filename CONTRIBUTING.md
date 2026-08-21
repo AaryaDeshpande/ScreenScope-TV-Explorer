@@ -14,12 +14,12 @@ git switch -c feature/short-description
 Suggested branches:
 
 ```text
-feature/app-shell
 feature/tmdb-api
-feature/search-results
-feature/media-details
-feature/explorer-analysis
-feature/explorer-deploy
+feature/search-page
+feature/detail-panel
+feature/explorer-page
+feature/charts-deploy
+feature/data-analysis
 ```
 
 Do not run `git init` after cloning. Do not commit directly to `main`.

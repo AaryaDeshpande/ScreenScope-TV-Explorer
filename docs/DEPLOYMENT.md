@@ -1,6 +1,6 @@
 # Deployment and Release Checklist
 
-Owner: Explorer, QA, and deployment workstream.
+Owner: Snehal, after all six Python pull requests are merged.
 
 ## Streamlit Community Cloud
 

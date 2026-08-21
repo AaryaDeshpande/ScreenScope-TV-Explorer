@@ -1,7 +1,13 @@
-"""Explorer filter and query helpers.
+"""Finished helpers for translating Explorer choices into TMDB values."""
 
-Owner: Explorer, QA, and deployment workstream.
-"""
+
+def media_type_from_label(label: str) -> str:
+    """Translate the page's friendly label to TMDB's media type."""
+    if label == "Movies":
+        return "movie"
+    if label == "TV Shows":
+        return "tv"
+    raise ValueError("label must be 'Movies' or 'TV Shows'")
 
 
 def discover_year_parameter(media_type: str) -> str:

@@ -1,8 +1,4 @@
-"""ScreenScope Streamlit entry point.
-
-Owner: Aarya / app shell and integration workstream.
-Keep feature implementation in the assigned modules and two pages.
-"""
+"""Finished ScreenScope home page and navigation shell."""
 
 import streamlit as st
 
