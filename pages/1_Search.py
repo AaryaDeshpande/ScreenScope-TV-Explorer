@@ -21,6 +21,9 @@ if not token:
     st.warning("Add TMDB_ACCESS_TOKEN to .streamlit/secrets.toml first.")
 
 query = st.text_input("Title", placeholder="Try Dune, Friends, or Stranger Things")
+# TODO (Debshree 2/2): On Search, call api.search_media(). Render each result
+# using search.result_card_fields(). A Select button should call
+# state.set_selected_media(id, media_type).
 if st.button("Search", type="primary", disabled=not bool(token)):
     if not query.strip():
         st.warning("Enter a title before searching.")
@@ -29,4 +32,6 @@ if st.button("Search", type="primary", disabled=not bool(token)):
 
 st.divider()
 st.subheader("Selected details")
+# TODO (Yan integration): Read the selected id/type from state, call
+# api.get_media_details(), and pass the result to render_detail_panel().
 st.caption("The selected movie or TV detail panel will render here.")

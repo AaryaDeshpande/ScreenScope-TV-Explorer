@@ -18,6 +18,10 @@ st.set_page_config(
 )
 apply_global_styles()
 
+# TODO (Aarya): Keep this page limited to navigation, project identity, token
+# guidance, and TMDB attribution. Feature logic belongs in pages/ and
+# screenscope/ so teammates can work without editing the same file.
+
 st.title("ScreenScope")
 st.caption("Movie & TV Explorer")
 
