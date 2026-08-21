@@ -13,4 +13,6 @@ def display_title(media: dict[str, Any]) -> str:
 
 def detail_fields(media: dict[str, Any]) -> dict[str, Any]:
     """Return display-ready metadata for one selected movie or TV show."""
+    # TODO (Yan 1/2): Return safe strings/numbers for the detail panel. Use
+    # "Not available" for missing text and never assume a field exists.
     raise NotImplementedError("Details owner: implement detail-panel mapping")

@@ -11,6 +11,36 @@ The graded MVP has only two user-facing pages:
 2. **Explorer** - filter movies or TV shows by genre and release year, then
    analyze the returned ratings and popularity with pandas and charts.
 
+## Current Scaffold Preview
+
+These screenshots show the shared starting point. The layout may improve, but
+the team should keep this same simple three-screen flow.
+
+### Home
+
+![ScreenScope home page](docs/reference/screenscope-home.png)
+
+### Search
+
+![ScreenScope search page](docs/reference/screenscope-search.png)
+
+### Explorer
+
+![ScreenScope Explorer page](docs/reference/screenscope-explorer.png)
+
+## Start Here
+
+1. Complete the [local setup](#local-setup) and confirm the app opens.
+2. Find your name in [Team TODOs](#team-todos).
+3. Create the listed branch from the latest `main`.
+4. Search your assigned files for `TODO` and complete only those items.
+5. Run `pytest` and `streamlit run app.py`.
+6. Commit, push, and open one pull request linked to your issue.
+
+The dependency order is **API first**, then Search/Details and Explorer/Analysis,
+then final integration. People can work in parallel using sample normalized
+dictionaries while the API work is being completed.
+
 ## Course Requirements
 
 | Requirement | ScreenScope implementation |
@@ -50,20 +80,69 @@ recommendations, machine learning, a database, episode analysis, or a second
 API. The provided account-details documentation belongs to the same TMDB API,
 but that endpoint is not required for this read-only app.
 
-## Team Ownership
+## Team TODOs
 
 Each member should create a feature branch, make at least one meaningful
 commit, and open one pull request. Confirm Debshree's GitHub username before
 inviting collaborators.
 
-| Owner | GitHub | Workstream | Primary files | Definition of done |
-| --- | --- | --- | --- | --- |
-| Aarya Deshpande | `AaryaDeshpande` | App shell, visual system, integration | `app.py`, `screenscope/styles.py`, shared docs | Two-page navigation and styling are consistent; merged app runs end to end |
-| Xianyu Wang | `XYWang-sunset` | TMDB API, authentication, normalized data | `screenscope/api.py`, `screenscope/contracts.py`, `tests/test_api.py` | Search, details, genres, and discover helpers return the shared contract and handle failures |
-| Debshree Chowdhury | **username needed** | Search form and result cards | `pages/1_Search.py`, `screenscope/search.py` | Query returns movie/TV cards and stores the selected media ID and type |
-| Yan Liu | `Yanliu-dev` | Selected movie/TV detail panel | `screenscope/details.py`, `screenscope/detail_view.py` | Selected result displays safe, useful detail fields and missing-data fallbacks |
-| Kuba | `kubar95` | pandas analysis and charts | `screenscope/analysis.py`, `tests/test_analysis.py` | Explorer results produce metrics, a table, and two clearly labeled charts |
-| Snehal Jindal | `snehal-jindal` | Explorer filters, QA, deployment | `pages/2_Explorer.py`, `screenscope/explore.py`, `docs/DEPLOYMENT.md` | Genre/year filters work, the public app is deployed, and the QA checklist passes |
+### 1. Xianyu - TMDB API ([issue #2](https://github.com/AaryaDeshpande/ScreenScope-TV-Explorer/issues/2))
+
+- **Branch:** `feature/tmdb-api`
+- **Files:** `screenscope/api.py`, `screenscope/contracts.py`, `tests/test_api.py`
+- Implement the four functions marked `TODO` in `screenscope/api.py`.
+- Normalize every API response to the names in `screenscope/contracts.py`.
+- Handle a bad token, timeout, HTTP error, empty result, and missing field.
+- **Done when:** the four helpers work and API tests pass.
+
+### 2. Debshree - Search ([issue #3](https://github.com/AaryaDeshpande/ScreenScope-TV-Explorer/issues/3))
+
+- **Branch:** `feature/search-results`
+- **Files:** `pages/1_Search.py`, `screenscope/search.py`
+- Call `search_media()`, display movie/TV cards, and ignore person results.
+- When a card is selected, store its `id` and `media_type` with
+  `screenscope.state.set_selected_media()`.
+- **Done when:** searching `Friends` shows selectable results without crashing
+  on missing posters or ratings.
+
+### 3. Yan - Selected Details ([issue #4](https://github.com/AaryaDeshpande/ScreenScope-TV-Explorer/issues/4))
+
+- **Branch:** `feature/media-details`
+- **Files:** `screenscope/details.py`, `screenscope/detail_view.py`
+- Convert a normalized detail dictionary into safe display fields.
+- Render poster, title, overview, genres, date, rating, popularity, runtime, and
+  status. Use friendly fallbacks such as `Not available`.
+- **Done when:** selecting either a movie or TV show displays its details below
+  the Search results.
+
+### 4. Snehal - Explorer and Deployment ([issue #6](https://github.com/AaryaDeshpande/ScreenScope-TV-Explorer/issues/6))
+
+- **Branch:** `feature/explorer-deploy`
+- **Files:** `pages/2_Explorer.py`, `screenscope/explore.py`, `docs/DEPLOYMENT.md`
+- Load genres, map the Movie/TV choice, and call `discover_media()` with the
+  selected genre and year.
+- Pass the returned results to Kuba's analysis helpers.
+- Complete the deployment and QA checklist.
+- **Done when:** both Movie and TV filters return data and the public Streamlit
+  URL opens.
+
+### 5. Kuba - pandas Analysis ([issue #5](https://github.com/AaryaDeshpande/ScreenScope-TV-Explorer/issues/5))
+
+- **Branch:** `feature/explorer-analysis`
+- **Files:** `screenscope/analysis.py`, `tests/test_analysis.py`
+- Calculate result count, mean rating, and mean popularity.
+- Prepare one top-popularity bar chart and one rating-versus-popularity scatter
+  chart. Do not treat missing ratings as zero.
+- **Done when:** Explorer displays metrics, a table, and two labeled charts.
+
+### 6. Aarya - Integration and Visual Consistency ([issue #1](https://github.com/AaryaDeshpande/ScreenScope-TV-Explorer/issues/1))
+
+- **Branch:** `feature/app-integration`
+- **Files:** `app.py`, `screenscope/styles.py`, shared documentation
+- Review and integrate the five feature pull requests.
+- Keep Home, Search, and Explorer visually consistent and responsive.
+- Verify attribution, error states, tests, README, and final demo flow.
+- **Done when:** a new visitor can complete both user flows on the deployed app.
 
 Assignments reduce merge conflicts; they are not walls. Teammates should
 review one another's pull requests and coordinate before changing a shared
@@ -85,6 +164,9 @@ The detail response may also include:
 ```text
 runtime, status, tagline, homepage
 ```
+
+Keep this contract small. Do not add cast, trailers, accounts, watchlists, or
+recommendations unless the required app is already deployed and stable.
 
 ## Repository Structure
 
@@ -146,6 +228,19 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before editing. In short:
 5. Commit with a descriptive message and push your branch.
 6. Open a pull request to `main` and request a teammate review.
 7. Merge only after the app starts and there are no unresolved conflicts.
+
+Useful commands for every teammate:
+
+```bash
+git switch main
+git pull origin main
+git switch -c your-branch-name
+# edit only your assigned files
+pytest
+git add path/to/your_file.py
+git commit -m "Describe your feature"
+git push -u origin your-branch-name
+```
 
 ## Design Direction
 
