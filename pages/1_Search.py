@@ -23,7 +23,7 @@ if not token:
 query = st.text_input("Title", placeholder="Try Dune, Friends, or Stranger Things")
 # TODO (Debshree 2/2): On Search, call api.search_media(). Render each result
 # using search.result_card_fields(). A Select button should call
-# state.set_selected_media(id, media_type).
+# state.select_media(id, media_type).
 if st.button("Search", type="primary", disabled=not bool(token)):
     if not query.strip():
         st.warning("Enter a title before searching.")
