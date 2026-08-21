@@ -16,7 +16,7 @@ The graded MVP has only two user-facing pages:
 | Requirement | ScreenScope implementation |
 | --- | --- |
 | Python web app | Python modules and two Streamlit pages |
-| Data analysis | pandas analysis and Plotly charts over filtered TMDB results |
+| Data analysis | pandas analysis and Matplotlib charts over filtered TMDB results |
 | API | TMDB search, details, genre, and discover endpoints |
 | Hosted on Streamlit | Deploy `app.py` with Streamlit Community Cloud |
 | Hosted on GitHub | Shared repository with commits and pull requests |
