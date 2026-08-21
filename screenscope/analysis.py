@@ -1,25 +1,25 @@
-"""pandas transformations for episode and season analysis.
+"""pandas transformations for the Explorer result page.
 
-Owner: Episode data analysis workstream.
+Owner: Data analysis and charts workstream.
 """
 
 from typing import Any
 
 import pandas as pd
 
-from screenscope.contracts import EPISODE_FIELDS
+from screenscope.contracts import MEDIA_FIELDS
 
 
-def episodes_to_dataframe(episodes: list[dict[str, Any]]) -> pd.DataFrame:
-    """Return an episode DataFrame with the shared columns.
-
-    TODO: normalize numeric values, parse dates, and decide how missing ratings
-    should be represented before charts are calculated.
-    """
-    return pd.DataFrame(episodes, columns=EPISODE_FIELDS)
+def results_to_dataframe(results: list[dict[str, Any]]) -> pd.DataFrame:
+    """Return an Explorer DataFrame with the shared media columns."""
+    return pd.DataFrame(results, columns=MEDIA_FIELDS)
 
 
-def summarize_seasons(episodes: pd.DataFrame) -> pd.DataFrame:
-    """Return season-level episode count and rating statistics."""
-    raise NotImplementedError("Analysis owner: implement season summary")
+def summarize_results(results: pd.DataFrame) -> dict[str, float | int]:
+    """Return count, mean rating, and mean popularity for current results."""
+    raise NotImplementedError("Analysis owner: implement result summary metrics")
 
+
+def chart_data(results: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Return top-popularity and rating-versus-popularity chart datasets."""
+    raise NotImplementedError("Analysis owner: prepare two chart datasets")

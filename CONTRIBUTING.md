@@ -15,11 +15,11 @@ Suggested branches:
 
 ```text
 feature/app-shell
-feature/tvmaze-api
+feature/tmdb-api
 feature/search-results
-feature/show-details
-feature/episode-analysis
-feature/catalog-explore
+feature/media-details
+feature/explorer-analysis
+feature/explorer-deploy
 ```
 
 Do not run `git init` after cloning. Do not commit directly to `main`.
@@ -28,9 +28,11 @@ Do not run `git init` after cloning. Do not commit directly to `main`.
 
 - Stay primarily within the files assigned to your workstream.
 - Import shared API and contract helpers instead of copying request code.
-- Treat missing images, summaries, dates, and ratings as normal API data.
-- Keep API calls cached and bounded; do not download the entire TVmaze catalog.
+- Treat missing posters, dates, overviews, and ratings as normal API data.
+- Keep API calls cached and use only the returned page of results.
+- Do not describe filtered results as globally "trending."
 - Do not commit `.DS_Store`, virtual environments, credentials, or generated data.
+- Never print or log the TMDB token.
 - Ask in the group chat before changing another workstream's public function.
 
 ## Before Opening a Pull Request
@@ -57,4 +59,3 @@ unrelated formatting or refactors with feature work.
 - Existing pages and tests must continue to work.
 - Resolve merge conflicts on the feature branch, not directly on `main`.
 - Delete the remote feature branch after a successful merge.
-

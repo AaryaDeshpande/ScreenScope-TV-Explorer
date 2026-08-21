@@ -1,42 +1,32 @@
 """Shared data contracts for API, UI, and analysis workstreams.
 
-Owner: TVmaze API workstream.
-Coordinate in the team before renaming or removing fields from these contracts.
+Owner: TMDB API workstream.
+Coordinate before renaming or removing fields from these contracts.
 """
 
-SHOW_FIELDS = (
+MEDIA_FIELDS = (
     "id",
-    "name",
-    "genres",
-    "language",
-    "status",
-    "premiered",
-    "ended",
+    "media_type",
+    "title",
+    "original_title",
+    "release_date",
+    "release_year",
+    "genre_ids",
+    "genre_names",
+    "overview",
+    "poster_url",
+    "backdrop_url",
     "rating",
-    "summary",
-    "image_url",
-    "network_name",
-    "web_channel_name",
-    "official_site",
-    "tvmaze_url",
+    "vote_count",
+    "popularity",
+    "original_language",
 )
 
-EPISODE_FIELDS = (
-    "id",
-    "name",
-    "season",
-    "number",
-    "airdate",
+DETAIL_FIELDS = MEDIA_FIELDS + (
     "runtime",
-    "rating",
-    "summary",
-    "image_url",
+    "status",
+    "tagline",
+    "homepage",
 )
 
-CAST_FIELDS = (
-    "person_id",
-    "person_name",
-    "character_name",
-    "person_image_url",
-)
-
+SUPPORTED_MEDIA_TYPES = ("movie", "tv")

@@ -2,62 +2,61 @@
 
 ## Product Statement
 
-ScreenScope helps a user find a television show, inspect reliable show details,
-and understand episode-rating patterns without moving between multiple sites.
+ScreenScope helps a user search for a movie or TV show, inspect useful details,
+and explore how rating and popularity vary within a filtered TMDB result set.
 
 ## Required MVP
 
-### Search
+### Tab 1: Search
 
-- Title query using TVmaze `/search/shows?q=:query`
-- Up to ten result cards
-- Image fallback, name, premiere year, genres, language, rating, and status
-- Select action that stores the TVmaze show ID in Streamlit session state
+- Title query using TMDB `/search/multi`
+- Filter the response to `movie` and `tv` records
+- Up to ten result cards with poster fallback, title, type, year, rating, and
+  popularity
+- Select action stores both the TMDB ID and media type
+- Selected detail panel calls `/movie/{id}` or `/tv/{id}` and displays overview,
+  genres, date, rating, vote count, popularity, runtime, and status
 
-### Show Details
+### Tab 2: Explorer
 
-- Show image and plain-text summary
-- Genres, language, status, premiere and end dates
-- Rating, network or web channel, official site, and TVmaze link
-- Main cast from `/shows/:id/cast`
+- Media selector: Movie or TV Show
+- Genre list from `/genre/movie/list` or `/genre/tv/list`
+- Filters: one genre and one release/first-air year
+- One page from `/discover/movie` or `/discover/tv`
+- Sort by `popularity.desc`
+- pandas DataFrame containing the normalized shared media fields
+- Summary metrics: result count, average rating, and average popularity
+- Table with title, year, rating, vote count, and popularity
+- Chart 1: top titles by popularity
+- Chart 2: rating versus popularity, with vote count available for context
 
-### Episode Analysis
+## Interpretation Rules
 
-- Episodes from `/shows/:id/episodes`
-- pandas DataFrame with missing values handled explicitly
-- KPI row: seasons, episodes, rated episodes, average episode rating
-- Episode-rating chart by season and episode
-- Season summary chart or table
-- Best- and lowest-rated episodes with a minimum-vote caveat if needed
+- The charts describe only the current filtered API result page.
+- Popularity and rating are different measures and must not be conflated.
+- A high rating with very few votes should not be presented as definitive.
+- Missing ratings are excluded and counted, not silently converted to zero.
+- Use "most popular in these results," not "globally trending."
 
-### Explore
+## Authentication
 
-- A bounded catalog sample from one or a few `/shows?page=:num` pages
-- Filters for genre, language, status, premiere year, and minimum rating
-- Clearly label this as a catalog sample rather than global trending data
+Use one application-level TMDB API Read Access Token as a Bearer token. Store
+it locally in `.streamlit/secrets.toml` and in Streamlit Community Cloud
+secrets. Account details, user sessions, favorites, and watchlists are outside
+the MVP.
 
-## Important Language
+## Stretch Goals Only After Deployment
 
-TVmaze does not provide a universal "trending" metric in its public show
-records. Do not label high-rated or recently premiered shows as trending unless
-the team defines and displays a transparent proxy. Prefer labels such as:
-
-- "Highest-rated shows in this catalog sample"
-- "Recently premiered shows in this sample"
-- "Most common genres in the analyzed results"
-
-## Stretch Goals
-
-- Compare two selected shows
-- Broadcast and streaming schedule
-- Person search and credits
-- Recommendation heuristic based on shared genres and language
-- Additional movie API added only after the TV MVP is deployed
+- Daily/weekly trending endpoint as a separate view
+- Cast and crew
+- Trailer links
+- Compare two titles
+- Watch-provider availability
 
 ## Definition of Done
 
-The app is done when a new visitor can search, select, inspect, and analyze a
-show on the public Streamlit URL; API failures and missing data do not crash the
-app; all six contributors have merged meaningful PRs; and the README, TVmaze
-credit, tests, and demo are complete.
-
+The app is done when a visitor can search and inspect a movie or TV show, run a
+genre/year discovery query, understand two charts based on the returned data,
+and use the public Streamlit URL without crashes. All six contributors must
+have merged meaningful pull requests, tests must pass, no secret may appear in
+Git history, and TMDB attribution must be visible.

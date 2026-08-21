@@ -1,10 +1,9 @@
-from screenscope.details import plain_text_summary
+from screenscope.details import display_title
 
 
-def test_plain_text_summary_removes_html() -> None:
-    assert plain_text_summary("<p>A <b>great</b> show.</p>") == "A great show."
+def test_display_title_prefers_normalized_title() -> None:
+    assert display_title({"title": "Dune", "original_title": "Dune"}) == "Dune"
 
 
-def test_plain_text_summary_handles_missing_value() -> None:
-    assert plain_text_summary(None) == "No summary is available."
-
+def test_display_title_handles_missing_value() -> None:
+    assert display_title({}) == "Untitled"

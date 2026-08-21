@@ -1,20 +1,16 @@
-"""Show detail and cast presentation helpers.
+"""Movie and TV detail presentation helpers.
 
-Owner: Show details and cast workstream.
+Owner: Selected media detail workstream.
 """
 
-import re
 from typing import Any
 
 
-def plain_text_summary(summary: str | None) -> str:
-    """Return a basic plain-text fallback for TVmaze's HTML summaries."""
-    if not summary:
-        return "No summary is available."
-    return re.sub(r"<[^>]+>", "", summary).strip()
+def display_title(media: dict[str, Any]) -> str:
+    """Return a safe title for either a normalized movie or TV result."""
+    return str(media.get("title") or media.get("original_title") or "Untitled")
 
 
-def detail_fields(show: dict[str, Any]) -> dict[str, Any]:
-    """Return display-ready metadata for one selected show."""
-    raise NotImplementedError("Details owner: implement detail-page mapping")
-
+def detail_fields(media: dict[str, Any]) -> dict[str, Any]:
+    """Return display-ready metadata for one selected movie or TV show."""
+    raise NotImplementedError("Details owner: implement detail-panel mapping")

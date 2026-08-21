@@ -2,28 +2,29 @@
 
 ## 0:00-0:15 - Purpose
 
-"ScreenScope is a Python and Streamlit application that uses the live TVmaze API
-to search television shows and pandas to analyze episode ratings."
+"ScreenScope is a Python and Streamlit application that uses the live TMDB API
+to search movies and TV shows, then uses pandas to analyze filtered results."
 
-## 0:15-0:45 - Search
+## 0:15-0:50 - Search and Details
 
-- Search for `Friends` or another well-populated show.
-- Point out that results come from TVmaze.
+- Search for `Dune`, `Friends`, or another recognizable title.
+- Point out the mixture of movie and TV results from TMDB.
 - Select the intended result.
+- Show its overview, genres, release date, rating, popularity, and other detail
+  fields.
 
-## 0:45-1:10 - Details
+## 0:50-1:40 - Explorer and Data Analysis
 
-- Show the image, summary, genres, dates, rating, network, and cast.
-- Mention safe handling of missing API fields.
+- Choose Movies or TV Shows.
+- Select a genre and release/first-air year.
+- Run the filtered discovery query.
+- Show the pandas-derived summary, table, popularity chart, and
+  rating-versus-popularity chart.
+- State one observation while clarifying that the charts cover the current
+  filtered results, not the entire TMDB catalog.
 
-## 1:10-1:45 - Data Analysis
+## 1:40-2:00 - Delivery
 
-- Open episode analysis.
-- Show the pandas-derived KPIs and season/episode charts.
-- State one concrete observation from the displayed data.
-
-## 1:45-2:00 - Delivery
-
-- Show the public Streamlit URL and TVmaze attribution.
-- Mention the shared GitHub pull-request workflow.
-
+- Show the public Streamlit URL.
+- Point out the TMDB attribution notice.
+- Mention the six-member GitHub pull-request workflow.

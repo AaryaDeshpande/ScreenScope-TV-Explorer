@@ -1,43 +1,51 @@
 """ScreenScope Streamlit entry point.
 
-Owner: Aarya / integration workstream.
-Keep feature-specific implementation in the assigned modules and pages.
+Owner: Aarya / app shell and integration workstream.
+Keep feature implementation in the assigned modules and two pages.
 """
 
 import streamlit as st
 
+from screenscope.config import tmdb_access_token
 from screenscope.styles import apply_global_styles
 
 
 st.set_page_config(
     page_title="ScreenScope",
-    page_icon="TV",
+    page_icon="S",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 apply_global_styles()
 
 st.title("ScreenScope")
-st.caption("TV Show Explorer & Episode Analytics")
+st.caption("Movie & TV Explorer")
 
 st.markdown(
     """
-    Search TVmaze for a show, inspect its details and cast, then analyze episode
-    ratings across seasons. Use the page navigation to begin.
+    Search movies and TV shows, inspect one result, or explore TMDB titles by
+    genre and year. The Explorer turns the current results into a small pandas
+    analysis with clearly labeled charts.
     """
 )
 
-left, middle, right = st.columns(3)
-with left:
-    st.subheader("Search")
-    st.write("Find and select the correct television show.")
-with middle:
-    st.subheader("Inspect")
-    st.write("Review show metadata, images, summary, and cast.")
-with right:
-    st.subheader("Analyze")
-    st.write("Compare episode and season ratings with pandas charts.")
+search_col, explore_col = st.columns(2)
+with search_col:
+    st.subheader("1. Search")
+    st.write("Find a movie or TV show and open its details.")
+    st.page_link("pages/1_Search.py", label="Open Search")
+with explore_col:
+    st.subheader("2. Explorer")
+    st.write("Filter one media type and analyze the returned result page.")
+    st.page_link("pages/2_Explorer.py", label="Open Explorer")
+
+if not tmdb_access_token():
+    st.warning(
+        "Add TMDB_ACCESS_TOKEN to .streamlit/secrets.toml before using live data."
+    )
 
 st.divider()
-st.markdown("Data provided by [TVmaze](https://www.tvmaze.com/).")
-
+st.markdown(
+    "This product uses the TMDB API but is not endorsed or certified by TMDB. "
+    "[Visit TMDB](https://www.themoviedb.org/)."
+)

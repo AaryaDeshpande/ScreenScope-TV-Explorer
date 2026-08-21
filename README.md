@@ -1,70 +1,89 @@
 # ScreenScope
 
-ScreenScope is a collaborative Streamlit application for searching TV shows,
-viewing show and cast details, and analyzing episode ratings with live data from
-the [TVmaze REST API](https://www.tvmaze.com/api).
+ScreenScope is a collaborative Python and Streamlit app for searching movies
+and TV shows, viewing their details, and exploring popularity and rating
+patterns with live data from the
+[TMDB API](https://developer.themoviedb.org/docs/getting-started).
 
-> **Scope note:** TVmaze is a television API. The graded MVP is therefore a
-> **TV Show Explorer & Episode Analytics** app. Movie support is a future
-> extension and is not part of the required submission.
+The graded MVP has only two user-facing pages:
+
+1. **Search** - search movies and TV shows, choose a result, and view details.
+2. **Explorer** - filter movies or TV shows by genre and release year, then
+   analyze the returned ratings and popularity with pandas and charts.
 
 ## Course Requirements
 
 | Requirement | ScreenScope implementation |
 | --- | --- |
-| Python web app | Python modules and Streamlit pages |
-| Data analysis | pandas analysis of episodes, seasons, genres, and ratings |
-| API | Live TVmaze search, show, episode, cast, and catalog endpoints |
+| Python web app | Python modules and two Streamlit pages |
+| Data analysis | pandas analysis and Plotly charts over filtered TMDB results |
+| API | TMDB search, details, genre, and discover endpoints |
 | Hosted on Streamlit | Deploy `app.py` with Streamlit Community Cloud |
-| Hosted on GitHub | This shared repository and pull-request history |
+| Hosted on GitHub | Shared repository with commits and pull requests |
 | Team access | All six members and the instructor added as collaborators |
 
-## MVP User Flow
+## Deliberately Small MVP
 
-1. Search for a television show by title.
-2. Select the correct result from the returned show cards.
-3. Open the selected show's details, including image, summary, genres, language,
-   status, premiere date, rating, network or streaming service, and cast.
-4. Analyze episode ratings by season with a table and charts.
-5. Optionally explore a small catalog sample by genre, language, status, year,
-   and minimum rating.
+### Tab 1: Search
 
-The MVP does **not** require accounts, saved watchlists, a database, movie data,
-machine learning, or a second API.
+- One search box using TMDB `/search/multi`
+- Keep movie and TV results; ignore people
+- Result cards with poster, title, media type, year, rating, and popularity
+- A selected result displays its overview, genres, release date, rating, vote
+  count, popularity, runtime, and status on the same page
 
-## Suggested Team Ownership
+### Tab 2: Explorer
 
-Confirm or swap these assignments in the group chat before feature work begins.
-Each owner works primarily in the listed files, opens a feature branch, makes at
-least one meaningful commit, and submits one pull request.
+- Choose `Movie` or `TV Show`
+- Filter by one genre and one release/first-air year
+- Use TMDB `/discover/movie` or `/discover/tv`, sorted by popularity
+- Build one pandas DataFrame from the current result page
+- Show summary metrics, a results table, and two charts:
+  - top titles by popularity
+  - rating versus popularity, with vote count available for context
 
-| Owner | Workstream | Primary files | Definition of done |
-| --- | --- | --- | --- |
-| Aarya Deshpande | App shell, visual system, integration | `app.py`, `screenscope/styles.py`, shared docs | Navigation and visual system are consistent; PRs integrate cleanly |
-| Xianyu Wang | TVmaze API and normalized data | `screenscope/api.py`, `screenscope/contracts.py`, `tests/test_api.py` | API functions return the shared field contract and handle failures |
-| Debshree Chowdhury | Search and result selection | `pages/1_Search.py`, `screenscope/search.py` | Search returns useful cards and stores the selected TVmaze show ID |
-| Yan Liu | Show details and cast | `pages/2_Show_Details.py`, `screenscope/details.py` | Selected show displays required metadata and cast safely |
-| Kuba | Episode data analysis | `pages/3_Episode_Analysis.py`, `screenscope/analysis.py`, `tests/test_analysis.py` | pandas summary and at least two meaningful charts work |
-| Snehal Jindal | Catalog exploration, QA, and deployment | `pages/4_Explore.py`, `screenscope/explore.py`, `docs/DEPLOYMENT.md` | Filters work on a bounded catalog sample; deployed app and demo are verified |
+The Explorer reports only on the current filtered TMDB result page. Labels
+must say **"most popular in these results"**, not claim universal trending.
 
-Assignments are organizational boundaries, not walls. Teammates should review
-one another's pull requests and may pair when an interface changes.
+The MVP does **not** need TMDB account login, favorites, watchlists,
+recommendations, machine learning, a database, episode analysis, or a second
+API. The provided account-details documentation belongs to the same TMDB API,
+but that endpoint is not required for this read-only app.
 
-## Shared Data Contract
+## Team Ownership
 
-Feature modules should exchange normalized dictionaries or DataFrames using the
-fields in `screenscope/contracts.py` rather than depending on every nested API
-field. The core show fields are:
+Each member should create a feature branch, make at least one meaningful
+commit, and open one pull request. Confirm Debshree's GitHub username before
+inviting collaborators.
+
+| Owner | GitHub | Workstream | Primary files | Definition of done |
+| --- | --- | --- | --- | --- |
+| Aarya Deshpande | `AaryaDeshpande` | App shell, visual system, integration | `app.py`, `screenscope/styles.py`, shared docs | Two-page navigation and styling are consistent; merged app runs end to end |
+| Xianyu Wang | `XYWang-sunset` | TMDB API, authentication, normalized data | `screenscope/api.py`, `screenscope/contracts.py`, `tests/test_api.py` | Search, details, genres, and discover helpers return the shared contract and handle failures |
+| Debshree Chowdhury | **username needed** | Search form and result cards | `pages/1_Search.py`, `screenscope/search.py` | Query returns movie/TV cards and stores the selected media ID and type |
+| Yan Liu | `Yanliu-dev` | Selected movie/TV detail panel | `screenscope/details.py`, `screenscope/detail_view.py` | Selected result displays safe, useful detail fields and missing-data fallbacks |
+| Kuba | `kubar95` | pandas analysis and charts | `screenscope/analysis.py`, `tests/test_analysis.py` | Explorer results produce metrics, a table, and two clearly labeled charts |
+| Snehal Jindal | `snehal-jindal` | Explorer filters, QA, deployment | `pages/2_Explorer.py`, `screenscope/explore.py`, `docs/DEPLOYMENT.md` | Genre/year filters work, the public app is deployed, and the QA checklist passes |
+
+Assignments reduce merge conflicts; they are not walls. Teammates should
+review one another's pull requests and coordinate before changing a shared
+function signature.
+
+## Shared Media Contract
+
+Feature modules exchange normalized dictionaries or DataFrames using the
+fields in `screenscope/contracts.py`:
 
 ```text
-id, name, genres, language, status, premiered, ended, rating,
-summary, image_url, network_name, web_channel_name, official_site, tvmaze_url
+id, media_type, title, original_title, release_date, release_year,
+genre_ids, genre_names, overview, poster_url, backdrop_url, rating,
+vote_count, popularity, original_language
 ```
 
-The core episode fields are:
+The detail response may also include:
 
 ```text
-id, name, season, number, airdate, runtime, rating, summary, image_url
+runtime, status, tagline, homepage
 ```
 
 ## Repository Structure
@@ -73,18 +92,18 @@ id, name, season, number, airdate, runtime, rating, summary, image_url
 .
 |-- app.py                         # Shared Streamlit entry point
 |-- pages/
-|   |-- 1_Search.py                # Search and select a show
-|   |-- 2_Show_Details.py          # Metadata and cast
-|   |-- 3_Episode_Analysis.py      # pandas analysis and charts
-|   `-- 4_Explore.py               # Optional catalog filters
+|   |-- 1_Search.py                # Search, results, and selected details
+|   `-- 2_Explorer.py              # Filters and data-analysis view
 |-- screenscope/
-|   |-- api.py                     # TVmaze HTTP client and endpoints
+|   |-- api.py                     # TMDB HTTP client and endpoints
+|   |-- config.py                  # Local/Streamlit token loading
 |   |-- contracts.py               # Shared normalized field names
-|   |-- search.py                  # Search-page transformations
-|   |-- details.py                 # Detail-page transformations
-|   |-- analysis.py                # Episode DataFrames and summaries
-|   |-- explore.py                 # Catalog filtering
-|   |-- state.py                   # Shared Streamlit selection state
+|   |-- search.py                  # Search-card transformations
+|   |-- details.py                 # Detail transformations
+|   |-- detail_view.py             # Reusable Streamlit detail renderer
+|   |-- analysis.py                # pandas analysis and chart data
+|   |-- explore.py                 # Explorer query helpers
+|   |-- state.py                   # Selected media state
 |   `-- styles.py                  # Shared visual tokens and CSS
 |-- tests/
 |-- docs/
@@ -102,47 +121,57 @@ cd ScreenScope-TV-Explorer
 python3.10 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
+cp .streamlit/secrets.toml.example .streamlit/secrets.toml
 streamlit run app.py
 ```
 
-TVmaze's public API does not require an API key. Do not add unrelated keys or
-secrets to the repository.
+Add the TMDB **API Read Access Token** to your local
+`.streamlit/secrets.toml`:
+
+```toml
+TMDB_ACCESS_TOKEN = "paste-your-read-access-token-here"
+```
+
+The real secrets file is ignored by Git. Add the same secret in Streamlit
+Community Cloud when deploying. Never commit a token, API key, or session ID.
 
 ## Collaboration Workflow
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) before editing. In short:
 
 1. Pull the latest `main`.
-2. Create one feature branch from `main`.
+2. Create your assigned feature branch from `main`.
 3. Work mainly in your assigned files.
 4. Run the app and tests.
 5. Commit with a descriptive message and push your branch.
 6. Open a pull request to `main` and request a teammate review.
-7. Merge only after the app still starts and the PR has no unresolved conflict.
+7. Merge only after the app starts and there are no unresolved conflicts.
 
 ## Design Direction
 
-The source of truth is [docs/DESIGN.md](docs/DESIGN.md). The UI follows the
-dark ScreenScope concept: compact header, prominent search, responsive show-card
-grid, focused detail view, restrained blue actions, warm rating accents, and
-clear analysis charts. The reference images are visual inspiration only; all
-content must come from TVmaze rather than hard-coded TMDB examples.
+The source of truth is [docs/DESIGN.md](docs/DESIGN.md). Use the dark
+ScreenScope concept: compact navigation, prominent search, responsive poster
+cards, restrained blue actions, warm rating accents, and readable charts. All
+runtime titles, posters, and metrics must come from TMDB rather than hard-coded
+prototype examples.
 
 ## Submission Checklist
 
-- [ ] Every team member is a GitHub collaborator.
-- [ ] Instructor is invited to the repository.
+- [ ] All six students are GitHub collaborators.
+- [ ] Instructor `babbages` is invited to the repository.
 - [ ] Every member has at least one meaningful commit and pull request.
-- [ ] Live TVmaze API data appears in the app.
-- [ ] pandas-based analysis and charts are visible.
+- [ ] Live TMDB search and discover data appear in the app.
+- [ ] pandas-based analysis and two charts are visible.
 - [ ] App is deployed publicly with Streamlit.
-- [ ] TVmaze is visibly credited and linked.
-- [ ] Empty results, missing images, missing ratings, and API failures are handled.
-- [ ] `pytest` passes and the final two-minute demo is recorded.
+- [ ] TMDB is visibly credited with the required notice.
+- [ ] Empty results, missing posters, missing ratings, and API failures are handled.
+- [ ] No secrets are committed.
+- [ ] `pytest` passes and the final demo is recorded.
 
-## Data Attribution
+## TMDB Attribution
 
-ScreenScope uses data and images from [TVmaze](https://www.tvmaze.com/), whose
-public API data is provided under CC BY-SA. TVmaze must remain visibly credited
-in the deployed application.
+This product uses the TMDB API but is not endorsed or certified by TMDB.
 
+ScreenScope must include an About/Credits area with an approved TMDB logo and a
+link to [The Movie Database](https://www.themoviedb.org/). TMDB branding must
+remain less prominent than the ScreenScope identity.

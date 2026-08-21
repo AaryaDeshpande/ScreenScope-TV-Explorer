@@ -2,70 +2,61 @@
 
 ## Chosen Reference
 
-Use the dark **ScreenScope** concept in `docs/reference/` as the visual source of
-truth for layout and hierarchy:
+Use the dark **ScreenScope** concepts in `docs/reference/` as the visual source
+of truth for layout and hierarchy:
 
-- Compact top identity area, not a marketing landing page
+- Compact identity and navigation, not a marketing landing page
 - Dark navy application background
 - Restrained blue primary actions
 - Warm gold for ratings
-- Coral and teal only for meaningful status or chart accents
+- Coral and teal only for meaningful chart accents
 - Prominent search control
 - Stable, responsive poster-card grid
-- Focused details layout with a clear return path
+- Focused detail section below the selected search result
 - Analysis presented as charts and tables, not decorative metrics
-
-The lighter TVmaze prototype is a **content and interaction reference**: it
-demonstrates real search results, useful show fields, and selection behavior.
-It is not the final visual direction.
 
 ### Search and Card Grid
 
 ![Dark ScreenScope search concept](reference/screenscope-search-concept.png)
 
-### Selected Show Details
+### Selected Media Details
 
 ![Dark ScreenScope details concept](reference/screenscope-detail-concept.png)
 
-### Real TVmaze Search Content
+The concepts already contain movie and TMDB-style fields, but their records are
+mock data. Runtime content must come from TMDB.
 
-![TVmaze search content reference](reference/tvmaze-search-content-reference.png)
-
-## TVmaze Adaptation
-
-The concept screenshots contain movie and TMDB-specific labels. Do not reproduce
-those labels. ScreenScope must use TVmaze television fields and attribution:
-
-- "TVmaze rating," not "TMDB rating"
-- Show premiere date, not movie release date
-- Network or web channel, not movie popularity
-- Episode analysis rather than movie analytics
-
-## Layout Targets
+## Two-Page Layout
 
 ### Search
 
 - Search control at the top of the working area
 - Two to four cards per row depending on viewport width
-- Each card has a stable poster ratio and metadata area
+- Each card has a stable 2:3 poster ratio and metadata area
 - Missing posters use a restrained text fallback without resizing the card
+- Selecting a card reveals the detail section on the same page
 
-### Details
+### Explorer
 
-- Poster and show metadata share the first viewport
-- Summary and cast remain readable without nested cards
-- Back navigation returns to existing search results
-
-### Analysis
-
-- KPI row followed by charts and a supporting episode table
-- Chart titles state exactly which records are being analyzed
-- Missing ratings are excluded and counted, not silently converted to zero
+- Media type, genre, and year controls stay together above the results
+- KPI row is followed by two charts and a supporting table
+- Chart titles state exactly which filtered records are being analyzed
+- Avoid a separate "Run Data Analysis" page or button; analysis updates from
+  the Explorer result set
 
 ## Accessibility and Responsiveness
 
 - Maintain readable contrast on the navy background.
-- Never communicate rating or status through color alone.
-- Keep buttons and filter labels visible on mobile.
+- Never communicate rating or media type through color alone.
+- Keep buttons and filters visible on mobile.
 - Avoid fixed widths that force horizontal scrolling.
-- Provide text for missing images and empty results.
+- Provide text for missing posters and empty results.
+
+## Attribution
+
+Include a small About/Credits area with an approved TMDB logo, a link to TMDB,
+and this exact notice:
+
+> This product uses the TMDB API but is not endorsed or certified by TMDB.
+
+The ScreenScope identity must remain more prominent than TMDB branding.

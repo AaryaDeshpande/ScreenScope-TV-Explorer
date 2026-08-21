@@ -1,18 +1,22 @@
-"""Small helpers for cross-page Streamlit selection state."""
+"""Small helpers for cross-component Streamlit selection state."""
 
 import streamlit as st
 
 
-SELECTED_SHOW_ID = "selected_show_id"
+SELECTED_MEDIA_ID = "selected_media_id"
+SELECTED_MEDIA_TYPE = "selected_media_type"
 
 
-def select_show(show_id: int) -> None:
-    """Store the selected TVmaze show ID for detail and analysis pages."""
-    st.session_state[SELECTED_SHOW_ID] = int(show_id)
+def select_media(media_id: int, media_type: str) -> None:
+    """Store the selected TMDB ID and media type."""
+    st.session_state[SELECTED_MEDIA_ID] = int(media_id)
+    st.session_state[SELECTED_MEDIA_TYPE] = media_type
 
 
-def selected_show_id() -> int | None:
-    """Return the currently selected TVmaze show ID, if one exists."""
-    value = st.session_state.get(SELECTED_SHOW_ID)
-    return int(value) if value is not None else None
-
+def selected_media() -> tuple[int, str] | None:
+    """Return ``(media_id, media_type)`` when a result is selected."""
+    media_id = st.session_state.get(SELECTED_MEDIA_ID)
+    media_type = st.session_state.get(SELECTED_MEDIA_TYPE)
+    if media_id is None or media_type not in {"movie", "tv"}:
+        return None
+    return int(media_id), str(media_type)

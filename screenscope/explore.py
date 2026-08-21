@@ -1,21 +1,13 @@
-"""Catalog filtering helpers.
+"""Explorer filter and query helpers.
 
-Owner: Catalog exploration workstream.
-Only operate on a bounded set of catalog pages during the MVP.
+Owner: Explorer, QA, and deployment workstream.
 """
 
-from typing import Any
 
-
-def filter_catalog(
-    shows: list[dict[str, Any]],
-    *,
-    genre: str | None = None,
-    language: str | None = None,
-    status: str | None = None,
-    premiered_after: int | None = None,
-    minimum_rating: float | None = None,
-) -> list[dict[str, Any]]:
-    """Return shows matching the active exploration filters."""
-    raise NotImplementedError("Explore owner: implement bounded filtering")
-
+def discover_year_parameter(media_type: str) -> str:
+    """Return the TMDB year parameter name for a movie or TV query."""
+    if media_type == "movie":
+        return "primary_release_year"
+    if media_type == "tv":
+        return "first_air_date_year"
+    raise ValueError("media_type must be 'movie' or 'tv'")
