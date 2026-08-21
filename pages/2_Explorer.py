@@ -41,7 +41,7 @@ if st.button("Explore", type="primary", disabled=not bool(token)):
 st.divider()
 st.subheader("Analysis of current results")
 # TODO (Snehal 3/3 + Kuba): Convert results with results_to_dataframe(), show
-# Kuba's summary metrics/table, and render the two chart datasets with Plotly.
+# Kuba's summary metrics/table, and render the two chart datasets with Matplotlib.
 st.caption(
     "Planned outputs: summary metrics, results table, top popularity chart, "
     "and rating-versus-popularity chart."
