@@ -21,14 +21,27 @@ def render_detail_panel(media: dict[str, Any]) -> None:
     poster_column, information_column = st.columns([1, 3])
 
     with poster_column:
-        # TODO (Yan 1/3): If fields["poster_url"] exists, display it with
-        # st.image(). Otherwise display a short "No poster available" caption.
-        pass
+        if fields["poster_url"]:
+            st.image(
+                fields["poster_url"],
+                caption="Poster",
+                use_column_width=True,
+            )
+        else:
+            st.caption("No poster available")
+
+        
 
     with information_column:
-        # TODO (Yan 2/3): Display fields["title"] and fields["overview"].
-        pass
+        st.title(fields["title"])
+        st.write(fields["overview"])
+        
 
-        # TODO (Yan 3/3): Display the remaining prepared values. A small
-        # st.write() or st.markdown() block is enough; no custom HTML is needed.
-        pass
+        st.write(f"Genres: {fields['genres']}")
+        st.write(f"Release date: {fields['release_date']}")
+        st.write(f"Rating: {fields['rating']}")
+        st.write(f"Popularity: {fields['popularity']}")
+        st.write(f"Runtime: {fields['runtime']}")
+        st.write(f"Status: {fields['status']}")
+        
+        
