@@ -1,14 +1,5 @@
-"""Explorer filters and result presentation.
-
-OWNER: Kuba
-
-FILL-IN CHECKLIST
-1. Load the genre list through the prepared API function.
-2. Load filtered movie/TV results through the prepared API function.
-3. Display Aarya's metrics/table and Snehal's two figures.
-
-The page controls and helper calls are already structured below. Complete the
-three small functions, keeping API, pandas, and chart logic in their modules.
+"""
+    Explorer filters and result presentation.
 """
 
 from datetime import date
@@ -29,8 +20,7 @@ EXPLORER_RESULTS_KEY = "explorer_results"
 
 def load_genres(media_type: str, token: str) -> list[dict[str, Any]]:
     """Load the genre options for the selected media type."""
-    # TODO (Kuba 1/3): Return api.get_genres(media_type, token).
-    raise NotImplementedError("Kuba: load the Explorer genres")
+    return api.get_genres(media_type, token)
 
 
 def load_results(
@@ -40,9 +30,7 @@ def load_results(
     year: int,
 ) -> list[dict[str, Any]]:
     """Load one filtered result page from TMDB."""
-    # TODO (Kuba 2/3): Return api.discover_media() using media_type, token,
-    # genre_id, and year. The function signature is already in api.py.
-    raise NotImplementedError("Kuba: load the filtered Explorer results")
+    return api.discover_media(media_type, token, genre_id=genre_id, year=year)
 
 
 def render_analysis(results: list[dict[str, Any]]) -> None:
@@ -51,12 +39,23 @@ def render_analysis(results: list[dict[str, Any]]) -> None:
     summary = summarize_results(frame)
     top_results, rated_results = chart_data(frame)
 
-    # TODO (Kuba 3/3):
-    # 1. Use three st.metric() calls for the values in summary.
-    # 2. Display frame with st.dataframe().
-    # 3. Display popularity_figure(top_results) and
-    #    rating_popularity_figure(rated_results) with st.pyplot().
-    pass
+    st.subheader("Summary")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Results", summary["result_count"])
+    col2.metric("Average rating", round(summary["average_rating"], 2))
+    col3.metric("Average popularity", summary["average_popularity"])
+
+    st.subheader("Popularity charts")
+    chart_col1, chart_col2 = st.columns(2)
+    with chart_col1:
+        st.pyplot(popularity_figure(top_results))
+    with chart_col2:
+        st.pyplot(rating_popularity_figure(rated_results))
+
+    st.subheader("Results table")
+    st.dataframe(frame)
+
+
 
 
 st.set_page_config(page_title="Explorer | ScreenScope", page_icon="S", layout="wide")
