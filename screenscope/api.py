@@ -112,9 +112,10 @@ def search_media(query: str, access_token: str) -> list[dict[str, Any]]:
     normalized_results: list[dict[str, Any]] = []
 
     for item in data.get("results", []):
-        # TODO (Xianyu 1/4): If item["media_type"] is movie or TV, normalize
-        # it with _normalize_media() and append it to normalized_results.
-        pass
+
+        for item in data.get("results", []):
+            if item.get("media_type") in SUPPORTED_MEDIA_TYPES:
+                normalized_results.append(_normalize_media(item))
 
     return normalized_results[:10]
 
@@ -127,9 +128,21 @@ def get_media_details(
     data = _request_json(f"/{media_type}/{media_id}", access_token)
     details = _normalize_media(data, media_type)
 
-    # TODO (Xianyu 2/4): Use details.update({...}) to add runtime, status,
-    # tagline, and homepage from data. For TV runtime, use the first value in
-    # data.get("episode_run_time", []) when available.
+    episode_run_time = data.get("episode_run_time") or []
+
+    runtime = (
+        data.get("runtime")
+        if media_type == "movie"
+        else episode_run_time[0] if episode_run_time else None
+        )
+    details.update(
+        {
+            "runtime": runtime,
+            "status": data.get("status"),
+            "tagline": data.get("tagline") or "",
+            "homepage": data.get("homepage") or "",
+        }
+    )
 
     return details
 
@@ -139,8 +152,7 @@ def get_genres(media_type: str, access_token: str) -> list[dict[str, Any]]:
     _validate_media_type(media_type)
     data = _request_json(f"/genre/{media_type}/list", access_token)
 
-    # TODO (Xianyu 3/4): Replace [] with data.get("genres", []).
-    return []
+    return data.get("genres", [])
 
 
 def discover_media(
@@ -154,9 +166,21 @@ def discover_media(
     _validate_media_type(media_type)
     params: dict[str, Any] = {"sort_by": "popularity.desc"}
 
-    # TODO (Xianyu 4/4):
-    # 1. If genre_id exists, set params["with_genres"] = genre_id.
-    # 2. If year exists, use discover_year_parameter(media_type) as its key.
-    # 3. Request f"/discover/{media_type}" with params.
-    # 4. Normalize each item in data["results"] and return the list.
-    raise NotImplementedError("Xianyu: finish the discover request")
+    
+    if genre_id is not None:
+        params["with_genres"] = genre_id
+
+    if year is not None:
+        year_parameter = discover_year_parameter(media_type)
+        params[year_parameter] = year
+
+    data = _request_json(
+        f"/discover/{media_type}",
+        access_token,
+        params,
+    )
+
+    return [
+        _normalize_media(item, media_type)
+        for item in data.get("results", [])
+    ]
