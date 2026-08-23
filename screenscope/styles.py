@@ -19,6 +19,7 @@ def apply_global_styles() -> None:
         .stApp {
             background: var(--screenscope-bg);
         }
+        .stApp h1, .stApp h2, .stApp h3, [data-testid="stCaptionContainer"] p { color: #D6DCEC; }
         [data-testid="stHeader"] {
             background: rgba(15, 23, 42, 0.92);
         }
