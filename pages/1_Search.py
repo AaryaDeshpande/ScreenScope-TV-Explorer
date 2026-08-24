@@ -34,16 +34,35 @@ def render_result_card(media: dict[str, Any]) -> None:
     with poster_column:
         # TODO (Debshree 1/3): Display fields["poster_url"] with st.image()
         # when present. Otherwise show a "No poster available" caption.
-        pass
+        if fields.get("poster_url"):
+            st.image(fields["poster_url"], use_container_width=True)
+        else:
+            st.caption("No poster available")
 
     with information_column:
         # TODO (Debshree 2/3): Display title, media type, release year, rating,
         # and popularity from fields. Plain Streamlit text is enough.
-        pass
+        st.subheader(fields.get("title", "Unknown Title"))
+        
+        # Safe extraction for media_type handling
+        raw_type = fields.get("media_type")
+        media_type_str = raw_type.title() if isinstance(raw_type, str) else "N/A"
+
+        st.write(
+            f"**Type:** {media_type_str} | "
+            f"**Year:** {fields.get('release_year', 'N/A')} | "
+            f"**Rating:** {fields.get('rating', 'N/A')} | "
+            f"**Popularity:** {fields.get('popularity', 'N/A')}"
+        )
 
         # TODO (Debshree 3/3): Add a Select button with a unique key. When
         # clicked, call state.select_media(fields["id"], fields["media_type"]).
-        pass
+        # Fallback key safety in case fields missing unexpected keys
+
+        button_key = f"select_{fields.get('media_type', 'media')}_{fields.get('id', 'id')}"
+
+        if st.button("Select", key=button_key):
+            state.select_media(fields["id"], fields["media_type"])
 
 
 st.set_page_config(page_title="Search | ScreenScope", page_icon="S", layout="wide")
@@ -68,8 +87,16 @@ if st.button("Search", type="primary", disabled=not bool(token)):
 
 results = st.session_state.get(SEARCH_RESULTS_KEY, [])
 if results:
-    st.subheader(f"Results ({len(results)})")
-    for result in results:
+    # Deduplicate results based on (id, media_type)
+    seen = set()
+    unique_results = []
+    for item in results:
+        identifier = (item.get("id"), item.get("media_type"))
+        if identifier not in seen:
+            seen.add(identifier)
+            unique_results.append(item)
+    st.subheader(f"Results ({len(unique_results)})")
+    for result in unique_results:
         render_result_card(result)
 
 st.divider()
