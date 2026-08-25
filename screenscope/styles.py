@@ -20,11 +20,21 @@ def apply_global_styles() -> None:
             background: var(--screenscope-bg);
         }
         .stApp h1, .stApp h2, .stApp h3, [data-testid="stCaptionContainer"] p { color: #172033; }
+        .stApp, .stApp label, .stApp p, .stApp [data-testid="stMarkdownContainer"] {
+            color: #172033;
+        }
         [data-testid="stHeader"] {
             background: rgba(248, 250, 252, 0.92);
         }
         [data-testid="stSidebar"] {
             background: #eef2f7;
+            color: #172033;
+        }
+        [data-testid="stSidebar"] a,
+        [data-testid="stSidebar"] p,
+        [data-testid="stSidebar"] span,
+        [data-testid="stSidebar"] label {
+            color: #172033 !important;
         }
         .stButton > button[kind="primary"] {
             background: var(--screenscope-blue);
