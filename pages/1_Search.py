@@ -17,7 +17,6 @@ import streamlit as st
 
 from screenscope import api, state
 from screenscope.config import tmdb_access_token
-from screenscope.detail_view import render_detail_panel
 from screenscope.search import result_card_fields
 from screenscope.styles import apply_global_styles
 
@@ -63,6 +62,7 @@ def render_result_card(media: dict[str, Any]) -> None:
 
         if st.button("Select", key=button_key):
             state.select_media(fields["id"], fields["media_type"])
+            st.switch_page("pages/3_Detail.py")
 
 
 st.set_page_config(page_title="Search | ScreenScope", page_icon="S", layout="wide")
@@ -99,15 +99,3 @@ if results:
     for result in unique_results:
         render_result_card(result)
 
-st.divider()
-st.subheader("Selected details")
-selection = state.selected_media()
-if selection and token:
-    selected_id, selected_type = selection
-    try:
-        selected_details = api.get_media_details(selected_type, selected_id, token)
-        render_detail_panel(selected_details)
-    except api.TMDBAPIError as error:
-        st.error(str(error))
-else:
-    st.caption("Select a result above to see its details.")

@@ -4,27 +4,27 @@ import streamlit as st
 
 
 def apply_global_styles() -> None:
-    """Apply the agreed dark ScreenScope visual direction."""
+    """Apply the shared light ScreenScope visual direction."""
     st.markdown(
         """
         <style>
         :root {
-            --screenscope-bg: #0f172a;
-            --screenscope-panel: #1e293b;
+            --screenscope-bg: #f8fafc;
+            --screenscope-panel: #ffffff;
             --screenscope-blue: #3b82f6;
-            --screenscope-gold: #fbbf24;
-            --screenscope-coral: #fb7185;
-            --screenscope-teal: #2dd4bf;
+            --screenscope-gold: #d97706;
+            --screenscope-coral: #e11d48;
+            --screenscope-teal: #0f766e;
         }
         .stApp {
             background: var(--screenscope-bg);
         }
-        .stApp h1, .stApp h2, .stApp h3, [data-testid="stCaptionContainer"] p { color: #D6DCEC; }
+        .stApp h1, .stApp h2, .stApp h3, [data-testid="stCaptionContainer"] p { color: #172033; }
         [data-testid="stHeader"] {
-            background: rgba(15, 23, 42, 0.92);
+            background: rgba(248, 250, 252, 0.92);
         }
         [data-testid="stSidebar"] {
-            background: #111827;
+            background: #eef2f7;
         }
         .stButton > button[kind="primary"] {
             background: var(--screenscope-blue);
