@@ -89,6 +89,13 @@ Run the app:
 streamlit run app.py
 ```
 
+Run the optional command-line demo:
+
+```bash
+export TMDB_ACCESS_TOKEN="paste-your-read-access-token-here"
+python cli_demo.py Dune
+```
+
 ## Complete Your Part
 
 ```bash
