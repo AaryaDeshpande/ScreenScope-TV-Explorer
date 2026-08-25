@@ -25,7 +25,7 @@ def render_detail_panel(media: dict[str, Any]) -> None:
             st.image(
                 fields["poster_url"],
                 caption="Poster",
-                use_column_width=True,
+                use_container_width=True,
             )
         else:
             st.caption("No poster available")
